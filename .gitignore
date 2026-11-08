@@ -1,0 +1,17 @@
+
+*.mp4
+*.mp3
+*.m4a
+*.zip
+.venv/
+.vscode/
+
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.env
+*.py[cod]
+*.db
+dist/
+build/
+uv.lock
