@@ -8,7 +8,7 @@ from fastapi.responses import JSONResponse
 from pytubefix.exceptions import VideoUnavailable
 
 from . import config
-from .Routers_20 import video,search
+from .Routers_20 import search, video
 
 background_tasks = BackgroundTasks()
 app = FastAPI()

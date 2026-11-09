@@ -21,9 +21,8 @@ async def test(settings: RunSettings) -> SearchVideoPagedResponse:
     print (settings)
     return await list_videos(settings, SearchVideoRequest())
 
-#splitTracks: Union[bool, None]
 @router.post("/videos")
 async def list_videos(settings: RunSettings,
                         request: SearchVideoRequest ) -> SearchVideoPagedResponse:
 
-    return SearchVideoPagedResponse()
+    return search_logic.search_for_videos(request)
