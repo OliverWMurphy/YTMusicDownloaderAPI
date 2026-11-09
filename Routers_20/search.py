@@ -24,5 +24,5 @@ async def test(settings: RunSettings) -> SearchVideoPagedResponse:
 @router.post("/videos")
 async def list_videos(settings: RunSettings,
                         request: SearchVideoRequest ) -> SearchVideoPagedResponse:
-
+    # YT streams results, it does not paginate, so paging is not applied. :(
     return search_logic.search_for_videos(request)
