@@ -1,8 +1,10 @@
 from pydantic import BaseModel as _BaseModel
+from typing import Annotated, TypeVar
+T = TypeVar('T')
 
 
 class BaseResponse(_BaseModel):
-    data: dict | None = None
+    data: T | None = None
     success: bool = False
 
 class BasePagedResponse(_BaseModel):
