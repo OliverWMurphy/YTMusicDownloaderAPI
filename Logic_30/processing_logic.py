@@ -2,34 +2,38 @@ import os
 import shutil
 import subprocess
 from pathlib import Path
-
+from pathvalidate import sanitize_filename
 from pytubefix import Chapter, Stream
 
 from backend.config import Settings  # pyright: ignore[reportMissingImports]
+from ..Utils_70.decorators.log_name import log_name
+
 
 
 def create_blob_path(video_id:str, settings: Settings) -> Path:
     return Path(settings.storage_url).joinpath(video_id)
 
-
+@log_name
 def process_audio(audio: Stream,
                    fileDestination: Path,
                    extension: str = ".mp3") -> Path:
-    audioName = Path(audio.default_filename)
+    audioName = Path(sanitize_filename(audio.default_filename))
 
     mp3File = audioName.with_suffix(extension)
-    print("Starting FFMPEG")
-    print(f"{fileDestination}/{audio.default_filename} -> {fileDestination}/{mp3File}")
 
-    subprocess.run(
-        ["ffmpeg", "-i",
-         fileDestination/audio.default_filename,
-           fileDestination/mp3File],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.STDOUT,
-        check= True
-    )
-    print("Ending FFMPEG")
+    if not (fileDestination/mp3File).exists():
+        print("Starting FFMPEG")
+        print(f"{fileDestination}/{audio.default_filename} -> {fileDestination}/{mp3File}")
+
+        subprocess.run(
+            ["ffmpeg", "-i",
+            fileDestination/audio.default_filename,
+            fileDestination/mp3File],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.STDOUT,
+            check= True
+        )
+        print("Ending FFMPEG")
 
     return fileDestination/mp3File
 
